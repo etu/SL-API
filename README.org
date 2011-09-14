@@ -1,0 +1,8 @@
+
+Detta är ett research projekt för att till en början dokumentera hur SLs JavaScript APIer ser ut och beter sig.
+
+Vi som arbetar på detta gör det helt i blindo utan att veta vad som finns bakom. Allt som publiceras sker genom analys av datatrafiken som sker mellan klienten och SLs servrar.
+
+* Mål
+
+Det är väl inte ett jättetydligt mål av projektet, men en del är att vi vill kunna använda APIet själva utan att skriva på en stor bunt med papper och sälja våra själar till +satan+^W SL.
