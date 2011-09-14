@@ -5,4 +5,4 @@ Vi som arbetar på detta gör det helt i blindo utan att veta vad som finns bako
 
 * Mål
 
-Det är väl inte ett jättetydligt mål av projektet, men en del är att vi vill kunna använda APIet själva utan att skriva på en stor bunt med papper och sälja våra själar till +satan+^W SL.
+Det är väl inte ett jättetydligt mål av projektet, men en del är att vi vill kunna använda APIet själva utan att skriva på en stor bunt med papper och sälja våra själar till +satan+ SL.
