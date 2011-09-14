@@ -14,9 +14,13 @@ Användning: HTTP GET förfrågningar, enbart GET parametrar
 | REQ0JourneyStopsS0G | sträng  | <input>? | Detta är söksträngen, om man inte har ? på slutet så betyder det exakt matchning, dvs 1 resultat. |
 
 ** Andra argument
-| Parameter | Typ | Standard | Beskrivning |
-|-----------+-----+----------+-------------|
-|           |     |          |             |
+| Parameter | Typ     | Standard     | Beskrivning                                                             |
+|-----------+---------+--------------+-------------------------------------------------------------------------|
+| start     | boolean | 1            | Gissningsvis att man är på startsidan                                   |
+| tpl       | sträng  | suggest2json | Det är ingen märkbar skillnad när man ändrar den eller bara skippar den |
+| getstop   | boolean | 1            | "Ta emot station"? Well...                                              |
+| noSession | boolean | yes          | Verkar inte spela någon roll i ett första steg                          |
+| js        | boolean | true         | ?                                                                       |
 
 
 * Exempel på förfrågan
