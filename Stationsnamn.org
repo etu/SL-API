@@ -1,4 +1,3 @@
-
 * Stationsnamn
 
 Basurl: http://sl.se/UI/Additions/GetHafasSuggestions.ashx
@@ -28,7 +27,9 @@ Användning: HTTP GET förfrågningar, enbart GET parametrar
 GET http://sl.se/UI/Additions/GetHafasSuggestions.ashx?REQ0JourneyStopsS0A=7&REQ0JourneyStopsB=12&REQ0JourneyStopsS0G=ODP
 
 ** Svar
+#+BEGIN_SRC <jquery>
 SLs.sls={"suggestions":[{"value":"Odenplan (Stockholm)","id":"A=1@O=Odenplan (Stockholm)@X=18049099@Y=59342882@U=74@L=300109117@B=1@p=1315985222@","type":"1","typeStr":"[RS/ST]","xcoord":"18049099","ycoord":"59342882","state":"id","prodClass":"10","weight":"16714"}]};SLs.showSuggestion();
+#+END_SRC
 
 * Analys av svaret
 Det man får tillbaka är ju inte json som man kan förvänta sig av några som kör jQuery och AJAX anrop, det vi får tillbaka är ju javascript som även innehåller ett json objekt.
@@ -37,7 +38,7 @@ Om man kapar bort: 'SLs.sls=' i början samt ';SLs.showSuggestion();' i slutet s
 
 Objektet har följande struktur:
 
-#+begin_src <jquery>
+#+BEGIN_SRC <jquery>
   suggestions: [
 	{
 	  value:     Odenplan (Stockholm),
@@ -51,7 +52,7 @@ Objektet har följande struktur:
 	  weight:    16714
 	}
   ]
-#+end_src
+#+END_SRC
 
 ** En "suggestion" innehåller följande
 Se ovan för exempeldata
@@ -60,8 +61,8 @@ Se ovan för exempeldata
 |-----------+--------+-------------------------------------------------------------------------------|
 | value     | sträng | Stationens fulla namn                                                         |
 | id        | sträng | Fylld med skräp... Använd inte denna, se ovan.                                |
-| type      | heltal | Denna siffra indikerar på hur man hittat stationen. 1 = Förkortning, 2 = Namn |
-| typeStr   | sträng | Samma som ovan fast konstigt format?                                          |
+| type      | heltal | Denna siffra indikerar vad för typ av resultat. 1 = Hållplats, 2 = Gatuadress |
+| typeStr   | sträng | Indikerar samma som ovan. [Adr] = Gatuaddress, [Stn/Hlp] = Hållplats          |
 | xcoord    | heltal | GPS koordinat, lägg till en punkt mellan andra och tredje siffran             |
 | ycoord    | heltal | Samma som ovan                                                                |
 | state     | sträng | ?                                                                             |
