@@ -1,7 +1,6 @@
-
 * Stationsnamn
 
-Basurl: http://sl.se/UI/Additions/GetHafasSuggestions.ashx
+Basurl: http://reseplanerare.sl.se/bin/ajax-getstop.exe/sn
 
 Användning: HTTP GET förfrågningar, enbart GET parametrar
 
@@ -9,9 +8,9 @@ Användning: HTTP GET förfrågningar, enbart GET parametrar
 ** Argument som krävs
 | Parameter           | Typ     | Standard | Beskrivning                                                                                       |
 |---------------------+---------+----------+---------------------------------------------------------------------------------------------------|
-| REQ0JourneyStopsS0A | heltal  |        7 | Jag vet inte vad detta värde gör, men det är required. 7 verkar vara en bra siffra.               |
-| REQ0JourneyStopsB   | heltal  |       12 | Bestämmer hur många träffar man vill ha när man söker på stationer.                               |
-| REQ0JourneyStopsS0G | sträng  | <input>? | Detta är söksträngen, om man inte har ? på slutet så betyder det exakt matchning, dvs 1 resultat. |
+| REQ0JourneyStopsS0A | heltal  |      255 | Jag vet inte vad detta värde gör, men det är required. 255 är standard för SL:s Reseplanerare     |
+| REQ0JourneyStopsB   | heltal  |       10 | Bestämmer hur många träffar man vill ha när man söker på stationer.                               |
+| S                   | sträng  | <input>? | Detta är söksträngen, om man inte har ? på slutet så betyder det exakt matchning, dvs 1 resultat. |
 
 ** Andra argument
 | Parameter | Typ     | Standard     | Beskrivning                                                             |
@@ -25,10 +24,12 @@ Användning: HTTP GET förfrågningar, enbart GET parametrar
 
 * Exempel på förfrågan
 ** Fråga
-GET http://sl.se/UI/Additions/GetHafasSuggestions.ashx?REQ0JourneyStopsS0A=7&REQ0JourneyStopsB=12&REQ0JourneyStopsS0G=ODP
+GET http://reseplanerare.sl.se/bin/ajax-getstop.exe/sn?REQ0JourneyStopsB=10&REQ0JourneyStopsS0A=255&S=ODP?
 
 ** Svar
-SLs.sls={"suggestions":[{"value":"Odenplan (Stockholm)","id":"A=1@O=Odenplan (Stockholm)@X=18049099@Y=59342882@U=74@L=300109117@B=1@p=1315985222@","type":"1","typeStr":"[RS/ST]","xcoord":"18049099","ycoord":"59342882","state":"id","prodClass":"10","weight":"16714"}]};SLs.showSuggestion();
+#+BEGIN_SRC <jquery>
+SLs.sls={"suggestions":[{"value":"ODP","id":"A=1@O=ODP@X=18049099@Y=59342900@U=74@L=300109117@B=1@p=1343201678@","type":"1","typeStr":"[Stn/Hlp]","xcoord":"18049099","ycoord":"59342900","state":"id","prodClass":"10","weight":"20232"},{"value":"Oa-Vägen, Ekerö","id":"A=2@O=Oa-Vägen, Ekerö@X=17799711@Y=59270087@U=174@B=1@p=1343201802@","type":"2","typeStr":"[Adr]","xcoord":"17799711","ycoord":"59270087","prodClass":"0","weight":"0"},{"value":"Oaxen, Mörkö","id":"A=2@O=Oaxen, Mörkö@X=17715545@Y=58972185@U=174@B=1@p=1343201802@","type":"2","typeStr":"[Adr]","xcoord":"17715545","ycoord":"58972185","prodClass":"0","weight":"0"}]};SLs.showSuggestion();
+#+END_SRC
 
 * Analys av svaret
 Det man får tillbaka är ju inte json som man kan förvänta sig av några som kör jQuery och AJAX anrop, det vi får tillbaka är ju javascript som även innehåller ett json objekt.
@@ -37,13 +38,13 @@ Om man kapar bort: 'SLs.sls=' i början samt ';SLs.showSuggestion();' i slutet s
 
 Objektet har följande struktur:
 
-#+begin_src <jquery>
+#+BEGIN_SRC <jquery>
   suggestions: [
 	{
 	  value:     Odenplan (Stockholm),
 	  id:        A=1@O=Odenplan (Stockholm)@X=18049099@Y=59342882@U=74@L=300109117@B=1@p=1315985222@,
 	  type:      1,
-	  typeStr:   [RS/ST],
+	  typeStr:   [Stn/Hlp],
 	  xcoord:    18049099,
 	  ycoord:    59342882,
 	  state:     id,
@@ -51,7 +52,7 @@ Objektet har följande struktur:
 	  weight:    16714
 	}
   ]
-#+end_src
+#+END_SRC
 
 ** En "suggestion" innehåller följande
 Se ovan för exempeldata
@@ -60,8 +61,8 @@ Se ovan för exempeldata
 |-----------+--------+-------------------------------------------------------------------------------|
 | value     | sträng | Stationens fulla namn                                                         |
 | id        | sträng | Fylld med skräp... Använd inte denna, se ovan.                                |
-| type      | heltal | Denna siffra indikerar på hur man hittat stationen. 1 = Förkortning, 2 = Namn |
-| typeStr   | sträng | Samma som ovan fast konstigt format?                                          |
+| type      | heltal | Denna siffra indikerar vad för typ av resultat. 1 = Hållplats, 2 = Gatuadress |
+| typeStr   | sträng | Indikerar samma som ovan. [Adr] = Gatuaddress, [Stn/Hlp] = Hållplats          |
 | xcoord    | heltal | GPS koordinat, lägg till en punkt mellan andra och tredje siffran             |
 | ycoord    | heltal | Samma som ovan                                                                |
 | state     | sträng | ?                                                                             |
